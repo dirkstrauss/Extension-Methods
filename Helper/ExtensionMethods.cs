@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Helper
 {
     /// <summary>
     /// Extension Methods Helper class. This contains common and easily used extension methods for your projects.
+    /// This now uses the .NET Framework 4.6
     /// </summary>
     public static class ExtensionMethods
     {
@@ -108,5 +110,48 @@ namespace Helper
                 return true; // Valid URL                      
         }
         #endregion
+
+        #region ExistsIn
+        /// <summary>
+        /// Check if a value is contained in a list
+        /// </summary>
+        /// <typeparam name="T">Parameter Type</typeparam>
+        /// <param name="value">Value to Check</param>
+        /// <param name="list">The list to check for the value</param>
+        /// <returns>Boolean</returns>
+        public static bool ExistsIn<T>(this T value, params T[] list)
+        {
+            if (value == null) throw new ArgumentNullException("value");
+            return list.Contains(value);
+        }
+        #endregion
+
+        #region Inject
+        /// <summary>
+        /// Performs a String.Format
+        /// </summary>
+        /// <param name="value">String value to act on</param>
+        /// <param name="args">Values to inject</param>
+        /// <returns>Formatted String</returns>
+        public static string Inject(this string value, params object[] args)
+        {
+            return string.Format(value, args);
+        }
+        #endregion
+
+        #region LogException
+        /// <summary>
+        /// Writes an exception to a log which needs to be implemented. Currently only outputs the error to the Visual Studio Output window
+        /// </summary>
+        /// <param name="value">Exception thrown</param>
+        public static void LogException(this Exception value)
+        {
+            Debug.WriteLine(value.Message);
+            // Log error to database or file or event log
+        }
+        #endregion
+        
     }
+
+    
 }

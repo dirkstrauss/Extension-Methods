@@ -8,6 +8,16 @@ namespace consoleApp
     /// </summary>
     class Program
     {
+
+        enum WorkWeek
+        {
+            Monday = 1,
+            Tuesday = 2,
+            Wednesday = 3,
+            Thursday = 4,
+            Friday = 5
+        }
+
         /// <summary>
         /// Main test console app
         /// </summary>
@@ -56,7 +66,61 @@ namespace consoleApp
             bool blnValid = sURL.IsValidURL();
             Console.WriteLine("");
             Console.WriteLine("// Extension method: IsValidURL()");
-            Console.WriteLine("Is the URL " + sURL + " valid: " + blnValid); 
+            Console.WriteLine("Is the URL " + sURL + " valid: " + blnValid);
+            #endregion
+
+            #region Check if a value is contained in a list
+            // Checks if a variable exists in an array of values
+            string TestString = "fox";
+            bool exists = TestString.ExistsIn("the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog");
+            Console.WriteLine("");
+            Console.WriteLine("// Extension method: ExistsIn(array)");
+            Console.WriteLine("The " + TestString.GetType() + " value '" + TestString + "' exists in the array: " + exists);
+
+            int iVal = 342;
+            exists = iVal.ExistsIn(23, 55, 342, 99, 144);
+            Console.WriteLine("The " + iVal.GetType() + " value " + iVal + " exists in the array: " + exists);
+
+            int day = (int)DateTime.Now.DayOfWeek;
+            exists = day.ExistsIn((int)WorkWeek.Monday, (int)WorkWeek.Tuesday, (int)WorkWeek.Wednesday, (int)WorkWeek.Thursday, (int)WorkWeek.Friday);
+            Console.WriteLine("The " + day.GetType() + " value " + day + " exists in the Work Week enumeration: " + exists);
+            #endregion
+
+            #region Inject is an easier way to perform a String.Format
+            // Performs a String.Format
+            string StringToFormat = "One {0} to rule them {1} and in the {2} {3} them";
+            string FormattedString = StringToFormat.Inject("Ring", "all", "darkness", "bind");
+            Console.WriteLine("");
+            Console.WriteLine("// Extension method: Inject(array)");
+            Console.WriteLine(FormattedString);
+            #endregion
+
+            #region LogException
+            // Writes an exception to a log which needs to be implemented.Currently only outputs the error to the Visual Studio Output window
+            try
+            {
+                int ZeroValue = 0;
+                int IntegerValue = 10;
+                int Result = IntegerValue / ZeroValue;
+            }
+            catch (Exception ex)
+            {
+                ex.LogException();                
+            }
+
+            try
+            {
+                string NullValue = null;
+                if (null == NullValue) throw new ArgumentNullException(nameof(NullValue));
+            }
+            catch (Exception ex)
+            {
+                ex.LogException();                
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("// Extension method: LogException()");
+            Console.WriteLine("See the Exception in the Visual Studio Output window.");
             #endregion
 
             Console.Read();
@@ -81,4 +145,6 @@ namespace consoleApp
         /// </summary>
         public string LastName { get; set; }
     }
+
+    
 }
