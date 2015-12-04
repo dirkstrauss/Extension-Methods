@@ -122,6 +122,41 @@ namespace consoleApp
             Console.WriteLine("// Extension method: LogException()");
             Console.WriteLine("See the Exception in the Visual Studio Output window.");
             #endregion
+            
+            #region Check if a variable is null
+            // Now we can check if an object is null
+            Console.WriteLine("");
+            Console.WriteLine("// Extension method: IsNull()");
+            string NullString = null;
+            if (NullString.IsNull()) { Console.WriteLine("NullString = null"); }
+
+            string NotNull = "Hello";
+            if (!NotNull.IsNull()) { Console.WriteLine("NotNull = NOT null"); }
+            #endregion
+            
+            #region Check if an email is valid
+            // Check an email address against RFC 2822 Format Regular Expression. Does not check top-level domain. It does NOT check German umlauts like Ä, ü, ö, or the ß
+            Console.WriteLine("");
+            Console.WriteLine("// Extension method: IsEmailValid()");
+            string validEmail = "lastname.firstname@email.com";
+            if (validEmail.IsEmailValid()) { Console.WriteLine("The email address " + validEmail + " is valid"); }
+
+            string invalidEmail = "lastname@firstname@email.com";
+            if (!invalidEmail.IsEmailValid()) { Console.WriteLine("The email address " + invalidEmail + " is NOT valid"); }
+            #endregion
+            
+            #region Check a value against a regular expression
+            // Check a value against a regular expression to check for a match. This Extension Method does not apply RegexOptions
+            Console.WriteLine("");
+            Console.WriteLine("// Extension method: IsRegexMatch(regexPattern)");
+            string regexPattern = @"[0-9]"; // Validate an ID number consisting of 2 digits, a hyphen, and an additional 5 digits.
+            string idNumber = "12-12345";
+            if (idNumber.IsRegexMatch(regexPattern)) { Console.WriteLine("The value " + idNumber + " matches the Regular Expression provided"); }
+
+            string badIDNumber = "aswedfrt";
+            if (!badIDNumber.IsRegexMatch(regexPattern)) { Console.WriteLine("The value " + badIDNumber + " does NOT match the Regular Expression provided"); } 
+            #endregion
+
 
             Console.Read();
         }

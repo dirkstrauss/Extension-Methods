@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Helper
 {
@@ -10,6 +11,8 @@ namespace Helper
     /// </summary>
     public static class ExtensionMethods
     {
+        private const string emailRegEx = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
+
         #region GetFinancialYear
         /// <summary>
         /// A DateTime extension method that finds the current financial year.
@@ -150,7 +153,44 @@ namespace Helper
             // Log error to database or file or event log
         }
         #endregion
-        
+
+        #region IsNull
+        /// <summary>
+        /// Now we have an easier way to check if an object is null
+        /// </summary>
+        /// <param name="value">Object to check</param>
+        /// <returns>True or False</returns>
+        public static bool IsNull(this object value)
+        {
+            return value == null;
+        }
+        #endregion
+
+        #region IsEmailValid
+        /// <summary>
+        /// Check an email address against RFC 2822 Format Regular Expression. Does not check top-level domain. It does NOT check German umlauts like Ä, ü, ö, or the ß
+        /// </summary>
+        /// <param name="value">Email Address to check</param>
+        /// <returns>Valid email true or false</returns>
+        public static bool IsEmailValid(this string value)
+        {
+            return Regex.IsMatch(value, emailRegEx, RegexOptions.IgnoreCase);
+        }
+        #endregion
+
+        #region MyRegion
+        /// <summary>
+        /// Check a value against a regular expression to check for a match. This Extension Method does not apply RegexOptions
+        /// </summary>
+        /// <param name="value">Value to check</param>
+        /// <param name="regexPattern">Regular Expression pattern to check value against</param>
+        /// <returns>A match is true or false</returns>
+        public static bool IsRegexMatch(this string value, string regexPattern)
+        {
+            return Regex.IsMatch(value, regexPattern);
+        } 
+        #endregion
+
     }
 
     
